@@ -25,7 +25,8 @@ export async function renderDashboard(el) {
   document.getElementById('dash-goto-protocols').onclick = () => window.__navigate('protocols')
   document.getElementById('dash-goto-resources').onclick = () => window.__navigate('resources')
 
-  const accounts = await api.getAccounts()
+  const result   = await api.getAccounts()
+  const accounts = Array.isArray(result) ? result : []
   const pools    = accounts.filter(a => a.kind === 'POOL')
   const alerts   = pools.filter(a => parseFloat(a.balance) < 0)
 

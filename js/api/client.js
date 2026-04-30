@@ -3,11 +3,16 @@ import { API_BASE } from '../config.js'
 async function request(path, method = 'GET', body = null) {
   const opts = { method, headers: { 'Content-Type': 'application/json' } }
   if (body !== null) opts.body = JSON.stringify(body)
-  const res = await fetch(API_BASE + path, opts)
-  if (res.status === 204) return null
-  const data = await res.json().catch(() => ({ error: res.statusText }))
-  if (!res.ok) throw new Error(data.error ?? res.statusText)
-  return data
+  try {
+    const res  = await fetch(API_BASE + path, opts)
+    if (res.status === 204) return null
+    const data = await res.json().catch(() => ({ error: res.statusText }))
+    if (!res.ok) throw new Error(data.error ?? res.statusText)
+    return data
+  } catch (err) {
+    console.error(`[API] ${method} ${path}`, err.message)
+    throw err   // re-throw so modals can catch and show alert
+  }
 }
 
 export const api = {

@@ -38,8 +38,9 @@ export async function renderResources(el) {
 }
 
 async function refresh() {
-  const rts   = await api.getResourceTypes()
-  const tbody = document.getElementById('rt-tbody')
+  const result = await api.getResourceTypes()
+  const rts    = Array.isArray(result) ? result : []
+  const tbody  = document.getElementById('rt-tbody')
   if (!tbody) return
 
   tbody.innerHTML = rts.length === 0

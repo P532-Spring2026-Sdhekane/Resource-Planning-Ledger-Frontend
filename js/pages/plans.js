@@ -193,7 +193,8 @@ export async function renderPlans(el) {
 
 // ── Plan list ────────────────────────────────────────────────────────────────
 async function refreshPlanList() {
-  const plans = await api.getPlans()
+  const result = await api.getPlans()
+  const plans  = Array.isArray(result) ? result : []
   const list  = document.getElementById('plan-list')
   if (!list) return
 

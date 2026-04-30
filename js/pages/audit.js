@@ -12,7 +12,8 @@ export async function renderAudit(el) {
       </table>
     </div>`
 
-  const logs  = await api.getAuditLog()
+  const result = await api.getAuditLog()
+  const logs   = Array.isArray(result) ? result : []
   const tbody = document.getElementById('audit-tbody')
   if (!tbody) return
 

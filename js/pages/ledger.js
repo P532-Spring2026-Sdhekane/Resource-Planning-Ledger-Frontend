@@ -29,7 +29,8 @@ export async function renderLedger(el) {
 }
 
 async function loadAccounts() {
-  const accounts = await api.getAccounts()
+  const result   = await api.getAccounts()
+  const accounts = Array.isArray(result) ? result : []
   const tbody    = document.getElementById('accounts-tbody')
   if (!tbody) return
 
@@ -51,7 +52,8 @@ async function loadAccounts() {
 
 async function loadEntries(accountId, name) {
   document.getElementById('selected-acct').textContent = name
-  const entries = await api.getEntries(accountId)
+  const result  = await api.getEntries(accountId)
+  const entries = Array.isArray(result) ? result : []
   const tbody   = document.getElementById('entries-tbody')
   if (!tbody) return
 

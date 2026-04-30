@@ -63,8 +63,9 @@ export async function renderProtocols(el) {
 }
 
 async function refresh() {
-  allProtocols = await api.getProtocols()
-  const tbody  = document.getElementById('proto-tbody')
+  const result   = await api.getProtocols()
+  allProtocols   = Array.isArray(result) ? result : []
+  const tbody    = document.getElementById('proto-tbody')
   if (!tbody) return
 
   tbody.innerHTML = allProtocols.length === 0
