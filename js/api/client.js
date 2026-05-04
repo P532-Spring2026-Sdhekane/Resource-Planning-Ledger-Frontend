@@ -33,10 +33,16 @@ export const api = {
   getPlan: (id) => request(`/api/plans/${id}`),
   createPlan: (b) => request("/api/plans", "POST", b),
   getPlanReport: (id) => request(`/api/plans/${id}/report`),
+  getPlanMetrics: (id) => request(`/api/plans/${id}/metrics`),
   addActionToPlan: (id, b) => request(`/api/plans/${id}/actions`, "POST", b),
 
   // Actions
   getAction: (id) => request(`/api/actions/${id}`),
+  submitForApproval: (id) =>
+    request(`/api/actions/${id}/submit-for-approval`, "POST", {}),
+  approve: (id) => request(`/api/actions/${id}/approve`, "POST", {}),
+  reject: (id) => request(`/api/actions/${id}/reject`, "POST", {}),
+  reopen: (id) => request(`/api/actions/${id}/reopen`, "POST", {}),
   implement: (id) => request(`/api/actions/${id}/implement`, "POST", {}),
   complete: (id) => request(`/api/actions/${id}/complete`, "POST", {}),
   suspend: (id, r) =>

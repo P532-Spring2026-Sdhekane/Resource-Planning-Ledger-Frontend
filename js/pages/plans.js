@@ -300,9 +300,13 @@ async function createAction() {
 // ── Action detail ────────────────────────────────────────────────────────────
 const TRANSITIONS = {
   PROPOSED: [
-    ["implement", "▶ Implement", "btn-success"],
+    ["submitForApproval", "📋 Submit for Approval", "btn-success"],
     ["suspend", "⏸ Suspend", "btn-warn"],
     ["abandon", "✕ Abandon", "btn-danger"],
+  ],
+  PENDING_APPROVAL: [
+    ["approve", "✓ Approve", "btn-success"],
+    ["reject", "✕ Reject", "btn-danger"],
   ],
   IN_PROGRESS: [
     ["complete", "✓ Complete", "btn-success"],
@@ -311,6 +315,11 @@ const TRANSITIONS = {
   ],
   SUSPENDED: [
     ["resume", "▶ Resume", "btn-success"],
+    ["abandon", "✕ Abandon", "btn-danger"],
+  ],
+  COMPLETED: [["reopen", "↩ Reopen", "btn-warn"]],
+  REOPENED: [
+    ["complete", "✓ Complete", "btn-success"],
     ["abandon", "✕ Abandon", "btn-danger"],
   ],
   COMPLETED: [],
