@@ -144,7 +144,7 @@ export async function renderPlans(el) {
       <div class="tab-panel" data-panel="alloc">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Resource</th><th>Qty</th><th>Kind</th><th>Asset ID</th><th></th></tr></thead>
+            <thead><tr><th>Resource</th><th>Qty</th><th>Kind</th><th>Asset ID</th><th>Period</th><th></th></tr></thead>
             <tbody id="action-alloc-tbody"></tbody>
           </table>
         </div>
@@ -169,6 +169,16 @@ export async function renderPlans(el) {
           <div class="form-group">
             <label>Asset ID (SPECIFIC only)</label>
             <input id="alloc-asset-id" placeholder="e.g., CRANE-001" />
+          </div>
+          <div class="grid col-2" id="period-fields" style="display:none">
+            <div class="form-group">
+              <label>Period Start (SPECIFIC only)</label>
+              <input id="alloc-period-start" type="date" />
+            </div>
+            <div class="form-group">
+              <label>Period End (SPECIFIC only)</label>
+              <input id="alloc-period-end" type="date" />
+            </div>
           </div>
           <button class="btn btn-primary btn-sm" id="btn-add-alloc">Add Allocation</button>
         </div>
@@ -198,6 +208,10 @@ export async function renderPlans(el) {
   };
   document.getElementById("btn-create-action").onclick = createAction;
   document.getElementById("btn-add-alloc").onclick = addAllocation;
+  document.getElementById("alloc-kind").onchange = (e) => {
+    document.getElementById("period-fields").style.display =
+      e.target.value === "SPECIFIC" ? "grid" : "none";
+  };
 
   // Tabs
   initTabs("#plan-tabs", (tab) => {
@@ -373,6 +387,7 @@ async function refreshAction() {
         <td>${a.quantity}</td>
         <td><span class="badge">${a.kind}</span></td>
         <td>${a.assetId ?? "—"}</td>
+        <td>${a.periodStart && a.periodEnd ? a.periodStart + " → " + a.periodEnd : "—"}</td>
         <td><button class="btn btn-danger btn-sm" data-alloc-id="${a.id}">✕</button></td>
       </tr>`,
       )
@@ -451,6 +466,9 @@ async function addAllocation() {
   const kind = document.getElementById("alloc-kind").value;
   const assetId =
     document.getElementById("alloc-asset-id").value.trim() || null;
+  const periodStart =
+    document.getElementById("alloc-period-start").value || null;
+  const periodEnd = document.getElementById("alloc-period-end").value || null;
   if (!resourceTypeId || !quantity) {
     alert("Resource type and quantity are required");
     return;
@@ -461,9 +479,13 @@ async function addAllocation() {
       quantity: parseFloat(quantity),
       kind,
       assetId,
+      periodStart,
+      periodEnd,
     });
     document.getElementById("alloc-qty").value = "";
     document.getElementById("alloc-asset-id").value = "";
+    document.getElementById("alloc-period-start").value = "";
+    document.getElementById("alloc-period-end").value = "";
     await refreshAction();
   } catch (err) {
     alert("Error: " + err.message);
