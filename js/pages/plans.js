@@ -322,7 +322,6 @@ const TRANSITIONS = {
     ["complete", "✓ Complete", "btn-success"],
     ["abandon", "✕ Abandon", "btn-danger"],
   ],
-  COMPLETED: [],
   ABANDONED: [],
 };
 
